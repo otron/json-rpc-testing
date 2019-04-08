@@ -49,8 +49,8 @@ func main () {
 
 	rpc := zenrpc.NewServer(zenrpc.Options{ExposeSMD: true})
 	server = rpc
+	rpc.Register("print", PrintService{})
 	rpc.Register("", SMDService{})
-	rpc.Register("", PrintService{})
 	// rpc.Register("arith", testdata.ArithService{})
 	rpc.Use(zenrpc.Logger(log.New(os.Stderr, "", log.LstdFlags)))
 

@@ -23,8 +23,8 @@ func getSMD(client *rpc.Client) {
 	var result interface{}
 	err := client.Call(&result, "GetSMD")
 	if err != nil {
-		log.Fatalf("oh boy, couldn't get the SMD stuff like that it seems. %s", err)
+		log.Fatalf("oh boy, couldn't get the SMD stuff like that it seems.", err)
 	} else {
-		log.Println("SMD: %s", result)
+		log.Println("SMD:", result)
 	}
 }
