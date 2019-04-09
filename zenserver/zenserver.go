@@ -38,7 +38,7 @@ func (ss SMDService) GetSMD() smd.Schema {
 }
 
 func (ps PrintService) Print(a, b string) int {
-	log.Printf("here are yo strings: %s but also %s", a, b)
+	log.Printf("'a'/param 1: '%s'. b/param 2: '%s'", a, b)
 	return 99
 }
 
