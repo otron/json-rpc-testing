@@ -38,7 +38,7 @@ func (ss SMDService) GetSMD() smd.Schema {
 }
 
 func (ps PrintService) Print(a, b string) int {
-	log.Println("here are yo strings: %s but also %s", a, b)
+	log.Printf("here are yo strings: %s but also %s", a, b)
 	return 99
 }
 
@@ -57,6 +57,5 @@ func main () {
 	http.Handle("/", rpc)
 
 	log.Printf("starting printserver on %s", *addr)
-	log.Println("Does println work?")
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
