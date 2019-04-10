@@ -14,32 +14,17 @@ type PrintService struct { zenrpc.Service }
 
 type SMDService struct { zenrpc.Service }
 
-type ArithService struct { zenrpc.Service }
-
-type Quotient struct {
-	Quo, Rem int
-}
-
-func (as ArithService) Divide(a, b int) (quo *Quotient, err error) {
-	if b == 0 {
-		return nil, errors.New("divide by zero")
-	} else if b == 1 {
-		return nil, zenrpc.NewError(401, errors.New("we do not serve 1"))
-	}
-
-	return &Quotient{
-		Quo: a / b,
-		Rem: a % b,
-	}, nil
-}
 
 func (ss SMDService) GetSMD() smd.Schema {
 	return server.SMD()
 }
 
-func (ps PrintService) Print(a, b string) int {
+func (ps PrintService) Print(a, b string) (int, error) {
+	if a == "what" {
+		return 1, errors.New("invalid string value because reasons")
+	}
 	log.Printf("'a'/param 1: '%s'. b/param 2: '%s'", a, b)
-	return 99
+	return 0, nil
 }
 
 var server zenrpc.Server
@@ -51,11 +36,10 @@ func main () {
 	server = rpc
 	rpc.Register("print", PrintService{})
 	rpc.Register("", SMDService{})
-	// rpc.Register("arith", testdata.ArithService{})
 	rpc.Use(zenrpc.Logger(log.New(os.Stderr, "", log.LstdFlags)))
 
 	http.Handle("/", rpc)
 
-	log.Printf("starting printserver on %s", *addr)
+	log.Printf("starting server on %s", *addr)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
