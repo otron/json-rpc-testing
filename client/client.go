@@ -22,7 +22,7 @@ func getClient(printSMD bool) *rpc.Client {
 func main() {
 	client := getClient(true)
 	var result interface{}
-	err := client.Call(&result, "print.print", "what", "is this?")
+	err := client.Call(&result, "print.printany", 319)
 	if err != nil {
 		log.Fatalf("Error in message: %s", err)
 	}

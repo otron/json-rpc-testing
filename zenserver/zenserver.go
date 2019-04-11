@@ -27,6 +27,11 @@ func (ps PrintService) Print(a, b string) (int, error) {
 	return 0, nil
 }
 
+func (ps PrintService) PrintAny(value interface{}) (interface{}, error) {
+	log.Printf("PrintAny: %s", value)
+	return value, nil
+}
+
 var server zenrpc.Server
 func main () {
 	addr := flag.String("addr", "localhost:9999", "listen address")
