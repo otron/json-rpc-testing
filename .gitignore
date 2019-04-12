@@ -1,0 +1,6 @@
+# ignore binaries
+zenserver
+client
+
+
+*_zenrpc.go
