@@ -1,14 +1,10 @@
 #!/bin/bash
 
 serverFile=zenserver.go
-zenrpcOut=main_zenrpc.go
-buildOut=zenserver
+servicesFile=services/services.go
+zenrpcOutServices=services_zenrpc.go
+zenrpcOutMain=main_zenrpc.go
 
-if [ -e $buildOut ]; then 
-    rm $buildOut
-fi
-if [ -e $zenrpcOut ]; then
-    rm $zenrpcOut
-fi
 zenrpc $serverFile
-go build $serverFile $zenrpcOut
+zenrpc $servicesFile
+go build $serverFile $zenrpcOutMain
