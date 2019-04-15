@@ -10,23 +10,26 @@ import (
 	"github.com/otron/json-rpc-testing/zenserver/services"
 )
 
-type SMDService struct { zenrpc.Service }
+type SMDService struct {
+	zenrpc.Service
+	server *zenrpc.Server
+}
 
 func (ss SMDService) GetSMD() smd.Schema {
-	return server.SMD()
+	return ss.server.SMD()
 }
 
 
-var server zenrpc.Server
 func main () {
 	addr := flag.String("addr", "localhost:9999", "listen address")
 	flag.Parse()
 
 	rpc := zenrpc.NewServer(zenrpc.Options{ExposeSMD: true})
 	server = rpc
+	smdService := SMDService{server: &rpc}
 
 	rpc.Register("print", services.PrintService{})
-	rpc.Register("", SMDService{})
+	rpc.Register("", smdService)
 	rpc.Use(zenrpc.Logger(log.New(os.Stderr, "", log.LstdFlags)))
 
 	http.Handle("/", rpc)
