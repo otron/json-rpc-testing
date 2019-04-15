@@ -6,18 +6,8 @@ import (
 	"flag"
 	"os"
 	"github.com/semrush/zenrpc"
-	"github.com/semrush/zenrpc/smd"
 	"github.com/otron/json-rpc-testing/zenserver/services"
 )
-
-type SMDService struct {
-	zenrpc.Service
-	server *zenrpc.Server
-}
-
-func (ss SMDService) GetSMD() smd.Schema {
-	return ss.server.SMD()
-}
 
 
 func main () {
@@ -25,8 +15,7 @@ func main () {
 	flag.Parse()
 
 	rpc := zenrpc.NewServer(zenrpc.Options{ExposeSMD: true})
-	server = rpc
-	smdService := SMDService{server: &rpc}
+	smdService := services.SMDService{Server: &rpc}
 
 	rpc.Register("print", services.PrintService{})
 	rpc.Register("", smdService)
